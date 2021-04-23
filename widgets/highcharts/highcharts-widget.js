@@ -1,5 +1,8 @@
 class CustomHighchartsWidgetCtrl {
-    constructor() {}
+    // better solution would be to have a directive for this kind of html-modifying-stuff
+    constructor($element) {
+        this.$element = $element[0].querySelector('#highcharts-injection-spot');
+    }
 
     $onInit() {
         this.columnHeaders = [
@@ -27,31 +30,26 @@ class CustomHighchartsWidgetCtrl {
               axis = series[isY ? 'yAxis' : 'xAxis'];
             return axis.categories[point[isY ? 'y' : 'x']];
         }
-        Highcharts.chart('highcharts-injection-spot', {
 
+        Highcharts.chart(this.$element, {
             chart: {
                 type: 'heatmap',
                 marginTop: 40,
                 marginBottom: 80,
                 plotBorderWidth: 1
             },
-        
-        
             title: {
                 text: 'Branch funds expenses / profit'
             },
-        
             xAxis: {
                 categories: xAxisCategories,
                 title: "Branch"
             },
-        
             yAxis: {
                 categories: yAxisCategories,
                 title: "Version",
                 reversed: true
             },
-        
             colorAxis: {
                 stops: [
                         [0, '#914224'],
@@ -65,7 +63,6 @@ class CustomHighchartsWidgetCtrl {
                         [1, '#3CFF33']
                 ],
             },
-        
             legend: {
                 align: 'right',
                 layout: 'vertical',
@@ -74,9 +71,7 @@ class CustomHighchartsWidgetCtrl {
                 y: 25,
                 symbolHeight: 280
             },
-        
             series: [{
-                name: 'Sales per employee',
                 borderWidth: 1,
                 data: seriesData,
             }],
@@ -106,11 +101,9 @@ class CustomHighchartsWidgetCtrl {
     }
 }
 
-CustomHighchartsWidgetCtrl.$inject = []
-
+CustomHighchartsWidgetCtrl.$inject = ['$element']
 angular.module('DemoApp').component('customHighchartsWidget', {
     templateUrl: 'widgets/highcharts/highcharts-widget.html',
     controller: CustomHighchartsWidgetCtrl,
-    bindings: {
-    }
+    bindings: {}
 })

@@ -1,8 +1,7 @@
 class CustomHandsontableWidgetCtrl {
-    constructor($rootScope, $timeout, $scope) {
-        this.$rootScope = $rootScope
-        this.$timeout = $timeout
-        this.$scope = $scope
+    // better solution would be to have a directive for this kind of html-modifying-stuff
+    constructor($element) {
+        this.$element = $element[0].querySelector('#handsontable-injection-spot');
     }
 
     $onInit() {
@@ -36,7 +35,6 @@ class CustomHandsontableWidgetCtrl {
         }
 
         function heatmapRenderer(instance, td, row, col, prop, value, cellProperties) {
-
             Handsontable.renderers.TextRenderer.apply(this, arguments);
             var cellValue = parseInt(value, 10);
             if (row && col) {
@@ -50,10 +48,7 @@ class CustomHandsontableWidgetCtrl {
           }
         Handsontable.renderers.registerRenderer('heatmapRenderer', heatmapRenderer);
 
-
-
-        var container = document.getElementById('handsontable-injection-spot');
-        var hot = new Handsontable(container, {
+        new Handsontable(this.$element, {
             data: data,
             rowHeaders: true,
             colHeaders: true,
@@ -71,8 +66,7 @@ class CustomHandsontableWidgetCtrl {
     }
 }
 
-CustomHandsontableWidgetCtrl.$inject = ['$rootScope', '$timeout', '$scope'];
-
+CustomHandsontableWidgetCtrl.$inject = ['$element'];
 angular.module('DemoApp').component('customHandsontableWidget', {
     templateUrl: 'widgets/handsontable/handsontable-widget.html',
     controller: CustomHandsontableWidgetCtrl,
