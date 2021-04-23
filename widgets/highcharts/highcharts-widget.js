@@ -38,7 +38,7 @@ class CustomHighchartsWidgetCtrl {
         
         
             title: {
-                text: 'Branch funds expenses'
+                text: 'Branch funds expenses / profit'
             },
         
             xAxis: {
