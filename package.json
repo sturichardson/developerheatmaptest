@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "http-server": "^0.12.1"
+    "http-server": "^0.12.3"
   },
   "scripts": {
     "start": "http-server -a localhost -p 8000 -c-1 ./"
